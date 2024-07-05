@@ -2,13 +2,13 @@
 
 Yet another LangChain example of prompting PDF files embeddings with a LLM.
 
-## Configuration
+## Setup
 
-No CLI arguments are parsed, all configuration values resides on [_configuration.py](_configuration.py).
+First, make sure to check [_configuration.py](_configuration.py) before starting, specifically the
+directory configuration from where the application will read the PDF files. Note that all
+configuration values comes from this file, there are no support for CLI arguments at the moment.
 
-## Building and Running
-
-Simply create a new virtual environment and install requirements with pip:
+Then, create a new virtual environment and install required packages with pip:
 
 ```sh
 $ python3 -m venv venv
@@ -16,13 +16,23 @@ $ source venv/bin/activate
 $ pip install -r requirements.txt
 ```
 
-Searching for PDF files, generating and indexing embeddings (with ChromaDB):
+Lastly, make sure you have [Ollama](https://ollama.com/) running ("http://localhost:11434/" by
+default).
+
+## Generating and Saving Vector Embeddings
+
+To list PDF files from the configured folder, generate and index its embeddings (ChromaDB):
 
 ```sh
 $ python3 vectorize.py
 ```
 
-Prompting the embeddings with an LLM (with Ollama):
+This will generate a folder with the embeddings ("chroma/" by default) and a file with a hash for
+each found file ("indexed_hashes.txt" by default).
+
+## Prompting Previously Generated Embeddings
+
+The start a chat with the LLM with the embeddings available:
 
 ```sh
 $ python3 chat.py
