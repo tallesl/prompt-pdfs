@@ -5,10 +5,10 @@ clean:
     rm -f indexed_hashes.txt
 
 vectorize:
-    python3 vectorize.py
+    python3 src/vectorize.py
 
 chat:
-    python3 chat.py
+    python3 src/chat.py
 
 venv:
     python3 -m venv venv

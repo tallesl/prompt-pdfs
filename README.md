@@ -25,7 +25,7 @@ default).
 To list PDF files from the configured folder, generate and index its embeddings (ChromaDB):
 
 ```sh
-$ python3 vectorize.py
+$ python3 src/vectorize.py
 ```
 
 This will generate a folder with the embeddings ("chroma/" by default) and a file with a hash for
@@ -36,7 +36,7 @@ each found file ("indexed_hashes.txt" by default).
 The start a chat with the LLM with the embeddings available:
 
 ```sh
-$ python3 chat.py
+$ python3 src/chat.py
 ```
 
 ## Contributing

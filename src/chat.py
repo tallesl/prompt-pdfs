@@ -10,8 +10,8 @@ from langchain_community.vectorstores import Chroma
 from langchain_core.documents import Document
 from langchain.chains import LLMChain
 
-from _common import initialize_chroma, log, set_signals
-import _configuration as configuration
+from _internals.common import initialize_chroma, log, set_signals
+import _internals.configuration as configuration
 
 
 def search_relevant_documents(chroma: Chroma, question: str) -> list:
@@ -55,7 +55,7 @@ if __name__ == '__main__':
     # chat loop
     while True:
         try:
-            question = log('Ask a question: ', '')
+            log('Ask a question: ', '')
             question = input()
 
             if question.lower() in ['quit', 'q', 'exit']:
