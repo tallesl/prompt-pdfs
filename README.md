@@ -51,3 +51,4 @@ request. Some convenient command recipes are provided through a [justfile](justf
   store
 - Support other [PDF loaders](https://python.langchain.com/docs/modules/data_connection/document_loaders/pdf/)
 - Support other [LLM integrations](https://python.langchain.com/docs/integrations/llms/)
+- Unit tests
