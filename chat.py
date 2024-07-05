@@ -64,8 +64,5 @@ if __name__ == '__main__':
 
             log(f"Answer: {answer}")
 
-        except KeyboardInterrupt: # TODO colocar sinal no common
-            log("Graceful shutdown initiated.")
+        except EOFError:
             break
-
-    log('Finished.')
