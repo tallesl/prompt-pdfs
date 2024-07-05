@@ -63,20 +63,42 @@ def list_non_indexed_files(indexed_hashes: set[str], documents_configuration) ->
     Lists the non-indexed files in the configured directory with the configured extension.
     """
 
-    log(f'Listing non-indexed ("{documents_configuration.extension}" from "{documents_configuration.directory}")...')
+    log(
+        f'Listing non-indexed ("{documents_configuration.extension}"'
+        'from "{documents_configuration.directory}")...'
+    )
 
     all_files = listdir(documents_configuration.directory)
-    selected_filenames = [f for f in all_files if f.endswith(documents_configuration.extension)]
-    selected_filepaths = [path.join(documents_configuration.directory, f) for f in selected_filenames]
 
-    selected_files_hashes = {f: calculate_file_hash(f) for f in selected_filepaths}
+    selected_filenames = [
+        f
+        for f in all_files
+        if f.endswith(documents_configuration.extension)
+    ]
 
-    non_indexed_hashes = {f: h for f, h in selected_files_hashes.items() if h not in indexed_hashes}
+    selected_filepaths = [
+        path.join(documents_configuration.directory, f)
+        for f in selected_filenames
+    ]
+
+    selected_files_hashes = {
+        f: calculate_file_hash(f)
+        for f in selected_filepaths
+    }
+
+    non_indexed_hashes = {
+        f: h
+        for f, h in selected_files_hashes.items()
+        if h not in indexed_hashes
+    }
+
     non_indexed_files = non_indexed_hashes.keys()
+
     sorted_files = sorted(non_indexed_files)
 
     concatenated_filepaths = reduce(
-        lambda f, concatenated: f'{f}\n\t{concatenated}' if concatenated else f,
+        lambda f, concatenated:
+            f'{f}\n\t{concatenated}' if concatenated else f,
         sorted_files,
         ''
     )
@@ -134,9 +156,10 @@ def verify_chroma(chroma: Chroma, chroma_configuration) -> None:
     if not found_records:
         log('No embeddings found for the configured verification query.')
 
+    # TODO more preview size (100) to configuration, trim and remove new lines when printing
     total_records = len(found_records)
     for i, record in enumerate(found_records):
-        log(f'Record {i + 1} of {total_records} found: {record.page_content[:200]}...')  # TODO change to 100, move preview size to config, trim and remove new lines before printing
+        log(f'Record {i + 1} of {total_records} found: {record.page_content[:100]}...')
 
 
 if __name__ == '__main__':
