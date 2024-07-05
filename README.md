@@ -43,3 +43,10 @@ $ python3 chat.py
 Make sure to run [pylint](https://pyling.org) and [mypy](https://mypy-lang.org) on the files before submitting a pull
 request. Some convenient command recipes are provided through a [justfile](justfile) (see
 [just](https://just.systems) command runner).
+
+## TODO
+
+- Support [FAISS](https://python.langchain.com/v0.2/docs/integrations/vectorstores/faiss/) vector
+  store
+- Support other [PDF loaders](https://python.langchain.com/docs/modules/data_connection/document_loaders/pdf/)
+- Support other [LLM integrations](https://python.langchain.com/docs/integrations/llms/)

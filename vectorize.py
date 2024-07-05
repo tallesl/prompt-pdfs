@@ -96,7 +96,7 @@ def index_file(chroma: Chroma, indexed_hashes_filepath: str, filepath: str) -> N
     log(f'Indexing file embeddings ("{filepath}")...')
 
     # index file embeddings in Chroma
-    loader = PyMuPDFLoader(filepath)  # TODO support the following: PyMuPDFLoader, PDFMinerLoader (pdfminer.six), PyPDFLoader (pypdf)
+    loader = PyMuPDFLoader(filepath)
     documents = loader.load()
     chroma.add_documents(documents)
 
@@ -144,7 +144,7 @@ if __name__ == '__main__':
     set_signals()
 
     # initializing and verifying ChromaDB
-    chroma = initialize_chroma(configuration.chroma)  # TODO support FAISS
+    chroma = initialize_chroma(configuration.chroma)
     verify_chroma(chroma, configuration.chroma)
 
     # listing new files to be indexed

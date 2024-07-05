@@ -71,7 +71,7 @@ if __name__ == '__main__':
     chroma = initialize_chroma(chroma_config)
 
     # Initialize LLM and prompt template
-    llm = initialize_llm()  # TODO accept other LLMs than Ollama
+    llm = initialize_llm()
     prompt_template = create_prompt_template()
 
     # Create LLM chain
