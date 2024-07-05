@@ -3,7 +3,7 @@ Initializes OllamaEmbeddings and Chroma.
 """
 from datetime import datetime
 from signal import signal, SIGINT, SIGTERM
-from typing import Callable
+from sys import exit  # pylint: disable=redefined-builtin
 
 from langchain_community.embeddings import OllamaEmbeddings
 from langchain_community.vectorstores import Chroma
@@ -24,7 +24,7 @@ def set_signals() -> None:
     signal(SIGTERM, lambda _, __: exit(0))
 
 
-def initialize_chroma(chroma_configuration: Callable) -> Chroma:
+def initialize_chroma(chroma_configuration) -> Chroma:
     """
     Initializes OllamaEmbeddings and Chroma.
     """

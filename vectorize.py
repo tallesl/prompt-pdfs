@@ -10,7 +10,6 @@ extension.
 from functools import reduce
 from hashlib import md5
 from os import listdir, path
-from sys import exit  # pylint: disable=redefined-builtin
 
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_community.vectorstores import Chroma
