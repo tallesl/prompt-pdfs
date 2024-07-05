@@ -12,11 +12,11 @@ from _common import initialize_chroma, log
 import _configuration as configuration
 
 
-def initialize_llm() -> Ollama:
+def initialize_ollama(ollama_configuration) -> Ollama:
     """
-    Initializes the LLM with Ollama.
+    Initializes Ollama LLM.
     """
-    return Ollama(base_url="http://localhost:11434", model="llama3")  # TODO move values to configuration
+    return Ollama(base_url=ollama_configuration.base_url, model=ollama_configuration.model)
 
 
 def create_prompt_template() -> PromptTemplate:
@@ -70,7 +70,7 @@ if __name__ == '__main__':
     chroma = initialize_chroma(configuration.chroma)
 
     # Initialize LLM and prompt template
-    llm = initialize_llm()
+    llm = initialize_ollama(configuration.ollama)
     prompt_template = create_prompt_template()
 
     # Create LLM chain
