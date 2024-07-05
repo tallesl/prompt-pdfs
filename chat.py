@@ -12,20 +12,6 @@ from _common import initialize_chroma, log, set_signals
 import _configuration as configuration
 
 
-def initialize_ollama(ollama_configuration) -> Ollama:
-    """
-    Initializes Ollama LLM.
-    """
-    return Ollama(base_url=ollama_configuration.base_url, model=ollama_configuration.model)
-
-def create_llm_chain(llm: Ollama, prompt_template: PromptTemplate) -> LLMChain:
-    """
-    Creates the LLM chain with the given LLM and prompt template.
-    """
-    return prompt_template | llm
-    return LLMChain(llm=llm, prompt=prompt_template)
-
-
 def get_relevant_documents(question: str) -> list:
     """
     Retrieves relevant documents from ChromaDB for the given question.
@@ -50,20 +36,22 @@ if __name__ == '__main__':
     # set process signals
     set_signals()
 
-    # Initialize ChromaDB
-    chroma = initialize_chroma(configuration.chroma)
-
-    # Initialize LLM and prompt template
-    llm = initialize_ollama(configuration.ollama)
+    # setting up prompt template object
     prompt_template = PromptTemplate(
         input_variables=configuration.prompt.input_variables,
         template=configuration.prompt.template
     )
 
-    # Create LLM chain
-    chain = create_llm_chain(llm, prompt_template)  # TODO discard chain?
+    # initializing Ollama
+    ollama = Ollama(base_url=configuration.ollama.base_url, model=configuration.ollama.model)
 
-    # Chat loop
+    # setting up a chain of prompt + LLM
+    chain = prompt_template | ollama
+
+    # initializing ChromaDB
+    chroma = initialize_chroma(configuration.chroma)
+
+    # chat loop
     while True:
         try:
             question = input("Ask a question (or type 'exit' to quit): ")
