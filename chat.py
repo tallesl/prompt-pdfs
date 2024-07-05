@@ -18,23 +18,6 @@ def initialize_ollama(ollama_configuration) -> Ollama:
     """
     return Ollama(base_url=ollama_configuration.base_url, model=ollama_configuration.model)
 
-
-def create_prompt_template() -> PromptTemplate:
-    """
-    Creates a prompt template for the LLM.
-    """
-    return PromptTemplate(
-        input_variables=["question", "context"],
-        template="""
-        You are a helpful assistant knowledgeable about the contents of the PDFs.
-        Here is some context from the PDFs:
-        {context}
-
-        Q: {question}
-        A:"""
-    )
-
-
 def create_llm_chain(llm: Ollama, prompt_template: PromptTemplate) -> LLMChain:
     """
     Creates the LLM chain with the given LLM and prompt template.
@@ -72,7 +55,10 @@ if __name__ == '__main__':
 
     # Initialize LLM and prompt template
     llm = initialize_ollama(configuration.ollama)
-    prompt_template = create_prompt_template()
+    prompt_template = PromptTemplate(
+        input_variables=configuration.prompt.input_variables,
+        template=configuration.prompt.template
+    )
 
     # Create LLM chain
     chain = create_llm_chain(llm, prompt_template)  # TODO discard chain?
