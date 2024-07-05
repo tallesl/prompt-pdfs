@@ -8,7 +8,8 @@ from langchain_community.llms import Ollama
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 
-from _common import initialize_chroma, load_configuration, log
+from _common import initialize_chroma, log
+import _configuration as configuration
 
 
 def initialize_llm() -> Ollama:
@@ -64,11 +65,9 @@ def chat_with_pdfs(question: str) -> str:
 
 if __name__ == '__main__':
     # Load configuration object
-    configuration = load_configuration()
-    chroma_config = configuration['chroma']
 
     # Initialize ChromaDB
-    chroma = initialize_chroma(chroma_config)
+    chroma = initialize_chroma(configuration.chroma)
 
     # Initialize LLM and prompt template
     llm = initialize_llm()
