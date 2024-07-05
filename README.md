@@ -1,7 +1,7 @@
 # Prompt PDFs
 
-Yet another LangChain example of prompting PDF files embeddings with a LLM. Everything is performed local, no external
-APIs are made.
+Yet another LangChain example of prompting PDF file embeddings with a LLM. Everything is performed
+local, no external APIs are made.
 
 ## Setup
 
@@ -41,9 +41,9 @@ $ python3 chat.py
 
 ## Contributing
 
-Make sure to run [pylint](https://pyling.org) and [mypy](https://mypy-lang.org) on the files before submitting a pull
-request. Some convenient command recipes are provided through a [justfile](justfile) (see
-[just](https://just.systems) command runner).
+Make sure to run [pylint](https://pyling.org) and [mypy](https://mypy-lang.org) on the files before
+submitting a pull request. Some convenient command recipes are provided through a
+[justfile](justfile) (see [just](https://just.systems) command runner).
 
 ## TODO
 
