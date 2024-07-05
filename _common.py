@@ -13,7 +13,7 @@ def log(message: str, end: str = '\n') -> None:
     """
     Prints the given message with the current time.
     """
-    print(f'[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] {message}', end=end)
+    print(f'[{datetime.now().strftime("%H:%M:%S")}] {message}', end=end)
 
 
 def set_signals() -> None:
