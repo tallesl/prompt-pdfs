@@ -166,4 +166,4 @@ cython_debug/
 
 # Project specific
 chroma/
-indexed-hashes.txt
+indexed_hashes.txt
