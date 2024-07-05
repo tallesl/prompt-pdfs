@@ -1,3 +1,5 @@
+#! /usr/bin/env python3
+
 """
 Prompts the PDF embeddings stored on ChromaDB using Ollama.
 """

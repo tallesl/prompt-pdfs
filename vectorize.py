@@ -1,3 +1,5 @@
+#! /usr/bin/env python3
+
 """
 Indexes on a ChromaDB database the embeddings of the files residing in the configured directory and
 extension.
