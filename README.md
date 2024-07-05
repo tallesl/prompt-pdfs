@@ -20,7 +20,7 @@ $ pip install -r requirements.txt
 Lastly, make sure you have [Ollama](https://ollama.com/) running ("http://localhost:11434/" by
 default).
 
-## Generating and Saving Vector Embeddings
+## Indexing PDFs
 
 To list PDF files from the configured folder, generate and index its embeddings (ChromaDB):
 
@@ -31,7 +31,7 @@ $ python3 src/vectorize.py
 This will generate a folder with the embeddings ("chroma/" by default) and a file with a hash for
 each found file ("indexed_hashes.txt" by default).
 
-## Prompting Previously Generated Embeddings
+## Prompting Indexed PDFs
 
 The start a chat with the LLM with the embeddings available:
 
@@ -41,9 +41,17 @@ $ python3 src/chat.py
 
 ## Contributing
 
+Some convenient command recipes are provided through a [justfile](justfile) (see
+[just](https://just.systems) command runner):
+- `just venv`: generates a new virtual environment with needed packages
+- `just clean`: removes indexed PDFs
+- `just lint [FILE]`: run pylint and mypy on the given file
+- `just lint-all`: run pyling and mypy on all .py
+- `just vectorize`: runs script that indexes PDFs
+- `just chat`: runs script that prompts indexed PDFs
+
 Make sure to run [pylint](https://pyling.org) and [mypy](https://mypy-lang.org) on the files before
-submitting a pull request. Some convenient command recipes are provided through a
-[justfile](justfile) (see [just](https://just.systems) command runner).
+submitting a pull request.
 
 ## TODO
 
