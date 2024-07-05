@@ -8,7 +8,7 @@ from langchain_community.llms import Ollama
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 
-from _common import initialize_chroma, log
+from _common import initialize_chroma, log, set_signals
 import _configuration as configuration
 
 
@@ -64,7 +64,8 @@ def chat_with_pdfs(question: str) -> str:
 
 
 if __name__ == '__main__':
-    # Load configuration object
+    # set process signals
+    set_signals()
 
     # Initialize ChromaDB
     chroma = initialize_chroma(configuration.chroma)

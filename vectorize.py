@@ -10,21 +10,13 @@ extension.
 from functools import reduce
 from hashlib import md5
 from os import listdir, path
-from signal import signal, SIGINT, SIGTERM
 from sys import exit  # pylint: disable=redefined-builtin
 
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_community.vectorstores import Chroma
 
-from _common import initialize_chroma, log
+from _common import initialize_chroma, log, set_signals
 import _configuration as configuration
-
-def set_signals() -> None:
-    """
-    Sets signal handlers for SIGINT and SIGTERM.
-    """
-    signal(SIGINT, lambda _, __: exit(0))
-    signal(SIGTERM, lambda _, __: exit(0))
 
 
 def calculate_file_hash(filepath: str) -> str:

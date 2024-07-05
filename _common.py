@@ -2,6 +2,7 @@
 Initializes OllamaEmbeddings and Chroma.
 """
 from datetime import datetime
+from signal import signal, SIGINT, SIGTERM
 from typing import Callable
 
 from langchain_community.embeddings import OllamaEmbeddings
@@ -13,6 +14,14 @@ def log(message: str) -> None:
     Prints the given message with the current time.
     """
     print(f'[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] {message}')
+
+
+def set_signals() -> None:
+    """
+    Sets signal handlers for SIGINT and SIGTERM.
+    """
+    signal(SIGINT, lambda _, __: exit(0))
+    signal(SIGTERM, lambda _, __: exit(0))
 
 
 def initialize_chroma(chroma_configuration: Callable) -> Chroma:
