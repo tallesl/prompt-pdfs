@@ -22,9 +22,6 @@ def calculate_file_hash(filepath: str) -> str:
     """
     Calculates the MD5 hash of the file at the given filepath.
     """
-    if not path.exists(filepath):
-        raise FileNotFoundError(f'File not found: {filepath}')
-
     hasher = md5()
 
     with open(filepath, 'rb') as file:
@@ -39,7 +36,7 @@ def list_indexed_hashes(indexed_hashes_filepath: str) -> set[str]:
     Lists the hashes of the indexed files in the given path.
     """
 
-    log(f'Listing hashes in "{indexed_hashes_filepath}"...')
+    log(f'Listing hashes in: {indexed_hashes_filepath}')
     if not path.exists(indexed_hashes_filepath):
         return set()
 
@@ -55,8 +52,8 @@ def list_non_indexed_files(indexed_hashes: set[str], documents_configuration) ->
     """
 
     log(
-        f'Listing non-indexed ("{documents_configuration.extension}"'
-        'from "{documents_configuration.directory}")...'
+        f'Listing non-indexed {documents_configuration.extension} '
+        f'from: {documents_configuration.directory}'
     )
 
     all_files = listdir(documents_configuration.directory)
@@ -106,7 +103,7 @@ def index_file(chroma: Chroma, indexed_hashes_filepath: str, filepath: str) -> N
     Generates and indexes the embeddings of the given file.
     """
 
-    log(f'Indexing file embeddings ("{filepath}")...')
+    log(f'Indexing embeddings of: {filepath}')
 
     # index file embeddings in Chroma
     loader = PyMuPDFLoader(filepath)
@@ -126,7 +123,7 @@ def index_hash(indexed_hashes_filepath: str, filepath: str) -> None:
     Generates and indexes the hash of the given file.
     """
 
-    log(f'Indexing file hash ("{filepath}")...')
+    log(f'Indexing hash of: {filepath}')
 
     # index file hash in .txt
     file_hash = calculate_file_hash(filepath)
@@ -140,7 +137,7 @@ def verify_chroma(chroma: Chroma, chroma_configuration) -> None:
     """
     Verifies ChromaDB content by the searching documents matching the given query.
     """
-    log(f'Verifying ChromaDB content ("{chroma_configuration.verification_query}" query)...')
+    log(f'Verifying ChromaDB content with query: {chroma_configuration.verification_query}')
 
     found_records = chroma.similarity_search(chroma_configuration.verification_query)
 
@@ -150,7 +147,8 @@ def verify_chroma(chroma: Chroma, chroma_configuration) -> None:
     # TODO more preview size (100) to configuration, trim and remove new lines when printing
     total_records = len(found_records)
     for i, record in enumerate(found_records):
-        log(f'Record {i + 1} of {total_records} found: {record.page_content[:100]}...')
+        preview = record.page_content[:100].replace('\n', ' ').strip()
+        log(f'Record {i + 1} of {total_records} found: {preview}')
 
 
 if __name__ == '__main__':
@@ -169,5 +167,3 @@ if __name__ == '__main__':
     for f in non_indexed_files:
         index_hash(configuration.indexed_hashes_filepath, f)
         index_file(chroma, configuration.indexed_hashes_filepath, f)
-
-    log('Finished.')
