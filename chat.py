@@ -55,14 +55,16 @@ if __name__ == '__main__':
     # chat loop
     while True:
         try:
-            question = input("Ask a question (or type 'exit' to quit): ")
-            if question.lower() == 'exit':
+            question = log('Ask a question: ', '')
+            question = input()
+
+            if question.lower() in ['quit', 'q', 'exit']:
                 break
 
             relevant_documents = search_relevant_documents(chroma, question)
             answer = invoke_question(chain, relevant_documents, question)
 
-            log(f"Answer: {answer}")
+            log(f'Answer: {answer}')
 
         except EOFError:
             break

@@ -9,11 +9,11 @@ from langchain_community.embeddings import OllamaEmbeddings
 from langchain_community.vectorstores import Chroma
 
 
-def log(message: str) -> None:
+def log(message: str, end: str = '\n') -> None:
     """
     Prints the given message with the current time.
     """
-    print(f'[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] {message}')
+    print(f'[{datetime.now().strftime("%Y-%m-%d %H:%M:%S")}] {message}', end=end)
 
 
 def set_signals() -> None:
