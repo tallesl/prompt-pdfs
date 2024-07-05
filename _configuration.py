@@ -10,6 +10,7 @@ chroma.model = 'llama3'
 chroma.collection_name = 'pdf_documents'
 chroma.persist_directory = './chroma'
 chroma.verification_query = 'Scrum'
+chroma.verification_preview_size = 100
 
 documents: Any = lambda: None
 documents.directory = path.expanduser('~/Downloads')

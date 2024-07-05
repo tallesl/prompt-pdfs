@@ -142,12 +142,13 @@ def verify_chroma(chroma: Chroma, chroma_configuration) -> None:
     found_records = chroma.similarity_search(chroma_configuration.verification_query)
 
     if not found_records:
-        log('No embeddings found for the configured verification query.')
+        log('No embeddings found for this query.')
 
-    # TODO more preview size (100) to configuration, trim and remove new lines when printing
     total_records = len(found_records)
+
     for i, record in enumerate(found_records):
-        preview = record.page_content[:100].replace('\n', ' ').strip()
+        size = chroma_configuration.verification_preview_size
+        preview = record.page_content[:size].replace('\n', ' ').strip()
         log(f'Record {i + 1} of {total_records} found: {preview}')
 
 
