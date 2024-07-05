@@ -4,27 +4,28 @@
 Prompts the PDF embeddings stored on ChromaDB using Ollama.
 """
 
-from langchain_community.llms import Ollama
 from langchain.prompts import PromptTemplate
+from langchain_community.llms import Ollama
+from langchain_community.vectorstores import Chroma
+from langchain_core.documents import Document
 from langchain.chains import LLMChain
 
 from _common import initialize_chroma, log, set_signals
 import _configuration as configuration
 
 
-def get_relevant_documents(question: str) -> list:
+def search_relevant_documents(chroma: Chroma, question: str) -> list:
     """
     Retrieves relevant documents from ChromaDB for the given question.
     """
     return chroma.similarity_search(question)
 
 
-def chat_with_pdfs(question: str) -> str:
+def invoke_question(chain: LLMChain, relevant_documents: list[Document], question: str) -> str:
     """
     Chats with the PDFs using the LLM chain and returns the answer.
     """
-    relevant_docs = get_relevant_documents(question)
-    context = "\n".join([doc.page_content[:200] for doc in relevant_docs])
+    context = "\n".join([doc.page_content[:200] for doc in relevant_documents])
 
     if not context.strip():
         return chain.invoke({"question": question, "context": ''})
@@ -58,7 +59,9 @@ if __name__ == '__main__':
             if question.lower() == 'exit':
                 break
 
-            answer = chat_with_pdfs(question)
+            relevant_documents = search_relevant_documents(chroma, question)
+            answer = invoke_question(chain, relevant_documents, question)
+
             log(f"Answer: {answer}")
 
         except KeyboardInterrupt: # TODO colocar sinal no common
