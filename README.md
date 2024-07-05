@@ -1,6 +1,7 @@
 # Prompt PDFs
 
-Yet another LangChain example of prompting PDF files embeddings with a LLM.
+Yet another LangChain example of prompting PDF files embeddings with a LLM. Everything is performed local, no external
+APIs are made.
 
 ## Setup
 
