@@ -9,11 +9,11 @@ venv:
     venv/bin/pip install -r requirements-dev.txt
 
 lint file:
-    pylint {{file}} || :
+    pylint {{file}} --max-line-length 120 || :
     mypy {{file}} --strict || :
 
 lint-all:
-    pylint {{py-files}} || :
+    pylint {{py-files}} --max-line-length 120 || :
     mypy {{py-files}} --strict || :
 
 vectorize:
