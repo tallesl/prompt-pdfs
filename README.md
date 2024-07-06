@@ -44,11 +44,12 @@ $ python3 src/chat.py
 Some convenient command recipes are provided through a [justfile](justfile) (see
 [just](https://just.systems) command runner):
 - `just venv`: generates a new virtual environment with needed packages
-- `just clean`: removes indexed PDFs
+- `just tree`: list the files of the repository as a tree
 - `just lint [FILE]`: run pylint and mypy on the given file
 - `just lint-all`: run pyling and mypy on all .py
 - `just vectorize`: runs script that indexes PDFs
 - `just chat`: runs script that prompts indexed PDFs
+- `just clean`: removes indexed PDFs
 
 Make sure to run [pylint](https://pyling.org) and [mypy](https://mypy-lang.org) on the files before
 submitting a pull request.

@@ -1,14 +1,7 @@
 py-files := `find . -type f -name "*.py" -and -not -path "./venv/*" | tr "\n" " "`
 
-clean:
-    rm -rf chroma
-    rm -f indexed_hashes.txt
-
-vectorize:
-    python3 src/vectorize.py
-
-chat:
-    python3 src/chat.py
+tree:
+    git ls-files | tree --fromfile
 
 venv:
     python3 -m venv venv
@@ -22,3 +15,13 @@ lint file:
 lint-all:
     pylint {{py-files}} || :
     mypy {{py-files}} || :
+
+vectorize:
+    python3 src/vectorize.py
+
+chat:
+    python3 src/chat.py
+
+clean:
+    rm -rf chroma
+    rm -f indexed_hashes.txt
