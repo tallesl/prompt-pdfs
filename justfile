@@ -1,7 +1,7 @@
 py-files := `find . -type f -name "*.py" -and -not -path "./venv/*" | tr "\n" " "`
 
 tree:
-    git ls-files | tree --fromfile
+    git ls-files | tree --fromfile --dirsfirst
 
 venv:
     python3 -m venv venv
