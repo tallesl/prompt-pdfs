@@ -12,7 +12,7 @@ from os import listdir, path
 
 from _internals.vector_store import initialize_chroma, verify_chroma, index_embedding
 from _internals.hash_store import list_indexed_hashes, index_hash, calculate_file_hash
-from _internals.utilities import log, set_signals
+from _internals.utilities import log, set_signals, list_files_with_extension
 import configuration
 
 
@@ -26,18 +26,9 @@ def list_non_indexed_files(indexed_hashes: set[str], documents_configuration) ->
         f'from: {documents_configuration.directory}'
     )
 
-    all_files = listdir(documents_configuration.directory)
-
-    selected_filenames = [
-        f
-        for f in all_files
-        if f.endswith(documents_configuration.extension)
-    ]
-
-    selected_filepaths = [
-        path.join(documents_configuration.directory, f)
-        for f in selected_filenames
-    ]
+    selected_filepaths = list_files_with_extension(
+        documents_configuration.directory, documents_configuration.extension
+    )
 
     selected_files_hashes = {
         f: calculate_file_hash(f)
