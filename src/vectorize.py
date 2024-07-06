@@ -14,8 +14,9 @@ from os import listdir, path
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_community.vectorstores import Chroma
 
-from _internals.common import initialize_chroma, log, set_signals
-import _internals.configuration as configuration
+from _internals.vector_store import initialize_chroma
+from _internals.utilities import log, set_signals
+import configuration
 
 
 def calculate_file_hash(filepath: str) -> str:
