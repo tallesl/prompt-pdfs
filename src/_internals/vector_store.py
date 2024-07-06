@@ -1,6 +1,7 @@
 """
 Initializes OllamaEmbeddings and Chroma.
 """
+from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_community.embeddings import OllamaEmbeddings
 from langchain_community.vectorstores import Chroma
 
@@ -46,3 +47,14 @@ def verify_chroma(chroma: Chroma, chroma_configuration) -> None:
         size = chroma_configuration.verification_preview_size
         preview = record.page_content[:size].replace('\n', ' ').strip()
         log(f'Record {i + 1} of {total_records} found: {preview}')
+
+
+def index_embedding(chroma: Chroma, f) -> None:
+    """
+    Generates and indexes the embedding of the given file.
+    """
+    log(f'Indexing embeddings of: {f}')
+    loader = PyMuPDFLoader(f)
+    documents = loader.load()
+    chroma.add_documents(documents)
+    log('Embeddings indexed.')

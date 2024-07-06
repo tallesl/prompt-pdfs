@@ -8,43 +8,12 @@ extension.
 # pylint: disable=redefined-outer-name
 
 from functools import reduce
-from hashlib import md5
 from os import listdir, path
 
-from langchain_community.document_loaders import PyMuPDFLoader
-from langchain_community.vectorstores import Chroma
-
-from _internals.vector_store import initialize_chroma, verify_chroma
+from _internals.vector_store import initialize_chroma, verify_chroma, index_embedding
+from _internals.hash_store import list_indexed_hashes, index_hash, calculate_file_hash
 from _internals.utilities import log, set_signals
 import configuration
-
-
-def calculate_file_hash(filepath: str) -> str:
-    """
-    Calculates the MD5 hash of the file at the given filepath.
-    """
-    hasher = md5()
-
-    with open(filepath, 'rb') as file:
-        buffer = file.read()
-        hasher.update(buffer)
-
-    return hasher.hexdigest()
-
-
-def list_indexed_hashes(indexed_hashes_filepath: str) -> set[str]:
-    """
-    Lists the hashes of the indexed files in the given path.
-    """
-
-    log(f'Listing hashes in: {indexed_hashes_filepath}')
-    if not path.exists(indexed_hashes_filepath):
-        return set()
-
-    with open(indexed_hashes_filepath, 'r', encoding='utf-8') as f:
-        hashes = set(line.strip() for line in f)
-        log(f'{len(hashes)} hashes listed.')
-        return hashes
 
 
 def list_non_indexed_files(indexed_hashes: set[str], documents_configuration) -> set[str]:
@@ -99,41 +68,6 @@ def list_non_indexed_files(indexed_hashes: set[str], documents_configuration) ->
     return set(sorted_files)
 
 
-def index_file(chroma: Chroma, indexed_hashes_filepath: str, filepath: str) -> None:
-    """
-    Generates and indexes the embeddings of the given file.
-    """
-
-    log(f'Indexing embeddings of: {filepath}')
-
-    # index file embeddings in Chroma
-    loader = PyMuPDFLoader(filepath)
-    documents = loader.load()
-    chroma.add_documents(documents)
-
-    # index file hash in .txt
-    file_hash = calculate_file_hash(filepath)
-    with open(indexed_hashes_filepath, 'a', encoding='utf-8') as f:
-        f.write(file_hash + '\n')
-
-    log('Embeddings indexed.')
-
-
-def index_hash(indexed_hashes_filepath: str, filepath: str) -> None:
-    """
-    Generates and indexes the hash of the given file.
-    """
-
-    log(f'Indexing hash of: {filepath}')
-
-    # index file hash in .txt
-    file_hash = calculate_file_hash(filepath)
-    with open(indexed_hashes_filepath, 'a', encoding='utf-8') as f:
-        f.write(file_hash + '\n')
-
-    log('Hash indexed.')
-
-
 if __name__ == '__main__':
     # set process signals
     set_signals()
@@ -149,4 +83,4 @@ if __name__ == '__main__':
     # indexing files
     for f in non_indexed_files:
         index_hash(configuration.indexed_hashes_filepath, f)
-        index_file(chroma, configuration.indexed_hashes_filepath, f)
+        index_embedding(chroma, f)
