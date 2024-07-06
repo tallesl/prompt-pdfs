@@ -5,7 +5,7 @@ local, no external APIs are made.
 
 ## Setup
 
-First, make sure to check [_configuration.py](_configuration.py) before starting, specifically the
+First, make sure to check [_configuration.py](src/_internals/configuration.py) before starting, specifically the
 directory configuration from where the application will read the PDF files. Note that all
 configuration values comes from this file, there are no support for CLI arguments at the moment.
 
