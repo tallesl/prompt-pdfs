@@ -10,11 +10,11 @@ venv:
 
 lint file:
     pylint {{file}} || :
-    mypy {{file}} || :
+    mypy {{file}} --strict || :
 
 lint-all:
     pylint {{py-files}} || :
-    mypy {{py-files}} || :
+    mypy {{py-files}} --strict || :
 
 vectorize:
     python3 src/vectorize.py
