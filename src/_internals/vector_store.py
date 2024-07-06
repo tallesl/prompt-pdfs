@@ -58,3 +58,10 @@ def index_embedding(chroma: Chroma, f) -> None:
     documents = loader.load()
     chroma.add_documents(documents)
     log('Embeddings indexed.')
+
+
+def search_relevant_documents(chroma: Chroma, query: str) -> list:
+    """
+    Retrieves relevant documents from ChromaDB for the given question.
+    """
+    return chroma.similarity_search(query)

@@ -6,20 +6,12 @@ Prompts the PDF embeddings stored on ChromaDB using Ollama.
 
 from langchain.prompts import PromptTemplate
 from langchain_community.llms import Ollama
-from langchain_community.vectorstores import Chroma
 from langchain_core.documents import Document
 from langchain.chains import LLMChain
 
-from _internals.vector_store import initialize_chroma
+from _internals.vector_store import initialize_chroma, search_relevant_documents
 from _internals.utilities import log, set_signals
 import configuration
-
-
-def search_relevant_documents(chroma: Chroma, question: str) -> list:
-    """
-    Retrieves relevant documents from ChromaDB for the given question.
-    """
-    return chroma.similarity_search(question)
 
 
 def invoke_question(chain: LLMChain, relevant_documents: list[Document], question: str) -> str:
