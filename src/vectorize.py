@@ -14,7 +14,7 @@ from os import listdir, path
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_community.vectorstores import Chroma
 
-from _internals.vector_store import initialize_chroma
+from _internals.vector_store import initialize_chroma, verify_chroma
 from _internals.utilities import log, set_signals
 import configuration
 
@@ -132,25 +132,6 @@ def index_hash(indexed_hashes_filepath: str, filepath: str) -> None:
         f.write(file_hash + '\n')
 
     log('Hash indexed.')
-
-
-def verify_chroma(chroma: Chroma, chroma_configuration) -> None:
-    """
-    Verifies ChromaDB content by the searching documents matching the given query.
-    """
-    log(f'Verifying ChromaDB content with query: {chroma_configuration.verification_query}')
-
-    found_records = chroma.similarity_search(chroma_configuration.verification_query)
-
-    if not found_records:
-        log('No embeddings found for this query.')
-
-    total_records = len(found_records)
-
-    for i, record in enumerate(found_records):
-        size = chroma_configuration.verification_preview_size
-        preview = record.page_content[:size].replace('\n', ' ').strip()
-        log(f'Record {i + 1} of {total_records} found: {preview}')
 
 
 if __name__ == '__main__':

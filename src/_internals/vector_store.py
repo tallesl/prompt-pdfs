@@ -27,3 +27,22 @@ def initialize_chroma(chroma_configuration) -> Chroma:
     log('ChromaDB initialized.')
 
     return c
+
+
+def verify_chroma(chroma: Chroma, chroma_configuration) -> None:
+    """
+    Verifies ChromaDB content by the searching documents matching the given query.
+    """
+    log(f'Verifying ChromaDB content with query: {chroma_configuration.verification_query}')
+
+    found_records = chroma.similarity_search(chroma_configuration.verification_query)
+
+    if not found_records:
+        log('No embeddings found for this query.')
+
+    total_records = len(found_records)
+
+    for i, record in enumerate(found_records):
+        size = chroma_configuration.verification_preview_size
+        preview = record.page_content[:size].replace('\n', ' ').strip()
+        log(f'Record {i + 1} of {total_records} found: {preview}')
