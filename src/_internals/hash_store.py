@@ -1,19 +1,17 @@
-#! /usr/bin/env python3
-
 """
-Indexes on a ChromaDB database the embeddings of the files residing in the configured directory and
-extension.
+Manages storing and indexing file hashes.
 """
 
 # pylint: disable=redefined-outer-name
 
 from hashlib import md5
 from os import path
+from typing import Iterable
 
 from .utilities import log
 
 
-def list_indexed_hashes(indexed_hashes_filepath: str) -> set[str]:
+def list_indexed_hashes(indexed_hashes_filepath: str) -> Iterable[str]:
     """
     Lists the hashes of the indexed files in the given path.
     """

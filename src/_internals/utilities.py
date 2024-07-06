@@ -1,11 +1,12 @@
 """
-Initializes OllamaEmbeddings and Chroma.
+Generic utilities related to CLI and file manipulation.
 """
 
 from datetime import datetime
 from os import listdir, path
 from signal import signal, SIGINT, SIGTERM
 from sys import exit  # pylint: disable=redefined-builtin
+from typing import Iterable
 
 
 def log(message: str, end: str = '\n') -> None:
@@ -25,7 +26,7 @@ def set_signals() -> None:
     signal(SIGTERM, lambda _, __: exit(0))
 
 
-def list_files_with_extension(directory: str, extension: str) -> list[str]:
+def list_files_with_extension(directory: str, extension: str) -> Iterable[str]:
     """
     Lists the files in the given directory with the given extension.
     """

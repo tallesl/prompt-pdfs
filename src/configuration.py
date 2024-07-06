@@ -1,6 +1,7 @@
 """
-Shared configuration objects.
+Application-wide configuration values.
 """
+
 from os import path
 from typing import Any
 
