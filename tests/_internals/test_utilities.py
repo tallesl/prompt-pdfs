@@ -8,10 +8,40 @@ from signal import SIGINT, SIGTERM
 from unittest.mock import patch, ANY
 import sys
 
-from src._internals.utilities import get_printable_list, log, set_signals
+from src._internals.utilities import get_printable_list, list_files_with_extension, log, set_signals
 
 
-def test_get_printable_list_empty():
+@patch('src._internals.utilities.listdir')
+def test_list_files_with_extension_none(mock_listdir):
+
+    # arrange
+    mock_listdir.return_value = ['file1.pdf', 'file2.txt', 'file3.exe', 'file4.pdf', 'file5.txt', 'file6.exe']
+
+    expected = []
+
+    # act
+    actual = list_files_with_extension('/downloads', '.doc')
+
+    # assert
+    assert actual == expected
+
+
+@patch('src._internals.utilities.listdir')
+def test_list_files_with_extension_multiple(mock_listdir):
+
+    # arrange
+    mock_listdir.return_value = ['file1.pdf', 'file2.txt', 'file3.exe', 'file4.pdf', 'file5.txt', 'file6.exe']
+
+    expected = ['/downloads/file1.pdf', '/downloads/file4.pdf']
+
+    # act
+    actual = list_files_with_extension('/downloads', '.pdf')
+
+    # assert
+    assert actual == expected
+
+
+def test_get_printable_list_none():
 
     # arrange
     items = []
