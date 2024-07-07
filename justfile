@@ -16,6 +16,9 @@ lint-all:
     pylint {{py-files}} --max-line-length 120 || :
     mypy {{py-files}} --strict || :
 
+test:
+    pytest --setup-show
+
 vectorize:
     python3 src/vectorize.py
 

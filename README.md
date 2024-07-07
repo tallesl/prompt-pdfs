@@ -46,7 +46,8 @@ Some convenient command recipes are provided through a [justfile](justfile) (see
 - `just venv`: generates a new virtual environment with needed packages
 - `just tree`: list the files of the repository as a tree
 - `just lint [FILE]`: run pylint and mypy on the given file
-- `just lint-all`: run pyling and mypy on all .py
+- `just lint-all`: run pylint and mypy on all .py files
+- `just test`: run pytest
 - `just vectorize`: runs script that indexes PDFs
 - `just chat`: runs script that prompts indexed PDFs
 - `just clean`: removes indexed PDFs
