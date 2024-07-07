@@ -6,7 +6,6 @@ from datetime import datetime
 from io import StringIO
 from signal import SIGINT, SIGTERM
 from unittest.mock import patch, ANY
-import sys
 
 from src._internals.utilities import get_printable_list, list_files_with_extension, log, set_signals
 
