@@ -4,10 +4,11 @@
 
 from datetime import datetime
 from io import StringIO
-from unittest.mock import patch
+from signal import SIGINT, SIGTERM
+from unittest.mock import patch, ANY
 import sys
 
-from src._internals.utilities import get_printable_list, log
+from src._internals.utilities import get_printable_list, log, set_signals
 
 
 def test_get_printable_list_empty():
@@ -49,25 +50,28 @@ def test_get_printable_list_multiple():
     assert actual == expected
 
 
-def test_log():
+@patch('src._internals.utilities.datetime')
+@patch('sys.stdout', new_callable=StringIO)
+def test_log(mock_stdout, mock_datetime):
 
     # arrange
-    with patch('src._internals.utilities.datetime') as mock_datetime:
-        mock_datetime.now.return_value = datetime(2024, 1, 2, 3, 4, 5)
+    mock_datetime.now.return_value = datetime(2024, 1, 2, 3, 4, 5)
+    expected = '[03:04:05] Test message\n'
 
-        with StringIO() as captured_output:
-            original_stdout = sys.stdout
-            sys.stdout = captured_output
+    # act
+    log('Test message')
+    actual = mock_stdout.getvalue()
 
-            expected_output = '[03:04:05] Test message\n'
+    # assert
+    assert actual == expected
 
-            try:
-                # act
-                log('Test message')
-                actual = captured_output.getvalue()
 
-                # assert
-                assert actual == expected_output
+@patch('src._internals.utilities.signal')
+def test_set_signals(mock_signal):
+    # act
+    set_signals()
 
-            finally:
-                sys.stdout = original_stdout
+    # assert
+    assert mock_signal.call_count == 2
+    mock_signal.assert_any_call(SIGINT, ANY)
+    mock_signal.assert_any_call(SIGTERM, ANY)
