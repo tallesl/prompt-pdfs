@@ -11,6 +11,27 @@ from typing import Iterable
 from .utilities import log
 
 
+def filter_indexed_files(indexed_hashes_filepath: str, source_filepaths: Iterable[str]) -> dict[str, str]:
+    """
+    Lists from the given source files the ones that are not in the given indexed hashes.
+    """
+
+    indexed_hashes = list_indexed_hashes(indexed_hashes_filepath)
+
+    source_files_hashes = {
+        f: calculate_file_hash(f)
+        for f in source_filepaths
+    }
+
+    non_indexed = {
+        f: h
+        for f, h in source_files_hashes.items()
+        if h not in indexed_hashes
+    }
+
+    return non_indexed
+
+
 def list_indexed_hashes(indexed_hashes_filepath: str) -> Iterable[str]:
     """
     Lists the hashes of the indexed files in the given path.
@@ -26,17 +47,15 @@ def list_indexed_hashes(indexed_hashes_filepath: str) -> Iterable[str]:
         return hashes
 
 
-def index_hash(indexed_hashes_filepath:str, filepath: str) -> None:
+def store_hash(indexed_hashes_filepath:str, filehash: str) -> None:
     """
-    Generates and indexes the hash of the given file.
+    Registers the given file hash as indexed.
     """
 
-    log(f'Indexing hash of: {filepath}')
+    log(f'Indexing hash: {filehash}')
 
-    # index file hash in .txt
-    file_hash = calculate_file_hash(filepath)
     with open(indexed_hashes_filepath, 'a', encoding='utf-8') as f:
-        f.write(f'{file_hash}\n')
+        f.write(f'{filehash}\n')
 
     log('Hash indexed.')
 

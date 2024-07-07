@@ -3,6 +3,7 @@ Generic utilities related to CLI and file manipulation.
 """
 
 from datetime import datetime
+from functools import reduce
 from os import listdir, path
 from signal import signal, SIGINT, SIGTERM
 from sys import exit  # pylint: disable=redefined-builtin
@@ -45,3 +46,21 @@ def list_files_with_extension(directory: str, extension: str) -> Iterable[str]:
     ]
 
     return selected_filepaths
+
+
+def get_printable_list(items: Iterable[str]) -> str:
+    """
+    Returns a printable list of the given filepaths.
+    """
+    sorted_items = sorted(items)
+
+    concatenated_items = reduce(
+        lambda f, concatenated:
+        f'{f}\n\t{concatenated}' if concatenated else f,
+        sorted_items,
+        ''
+    )
+
+    printable_items = concatenated_items if concatenated_items else " (none)"
+
+    return printable_items
