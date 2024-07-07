@@ -2,14 +2,17 @@
 Manages storing and indexing file embeddings.
 """
 
+# standard library imports
 from typing import Iterable
 
+# third-party imports
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_community.embeddings import OllamaEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_core.documents import Document
 
-from configuration import chroma_configuration
+# local imports
+from ..configuration import chroma_configuration
 from .utilities import log
 
 

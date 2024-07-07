@@ -25,7 +25,7 @@ default).
 To list PDF files from the configured folder, generate and index its embeddings (ChromaDB):
 
 ```sh
-$ python3 src/vectorize.py
+$ python3 -m prompt_pdfs.vectorize
 ```
 
 This will generate a folder with the embeddings ("chroma/" by default) and a file with a hash for
@@ -36,24 +36,24 @@ each found file ("indexed_hashes.txt" by default).
 The start a chat with the LLM with the embeddings available:
 
 ```sh
-$ python3 src/chat.py
+$ python3 -m prompt_pdfs.chat
 ```
 
 ## Contributing
+
+Make sure to run [pylint](https://pylint.org) and [mypy](https://mypy-lang.org) on before submitting a pull request and
+consider writing an unit test for the change.
 
 Some convenient command recipes are provided through a [justfile](justfile) (see
 [just](https://just.systems) command runner):
 - `just venv`: generates a new virtual environment with needed packages
 - `just tree`: list the files of the repository as a tree
-- `just lint [FILE]`: run pylint and mypy on the given file
-- `just lint-all`: run pylint and mypy on all .py files
-- `just test`: run pytest
+- `just pylint`: lints main and unit tests modules
+- `just mypy`: type-checks for main module
+- `just pytest`: run tests
 - `just vectorize`: runs script that indexes PDFs
 - `just chat`: runs script that prompts indexed PDFs
-- `just clean`: removes indexed PDFs
-
-Make sure to run [pylint](https://pyling.org) and [mypy](https://mypy-lang.org) on the files before
-submitting a pull request.
+- `just clean`: removes indexed PDFs and starts fresh
 
 ## TODO
 

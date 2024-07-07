@@ -5,12 +5,11 @@ Indexes on a ChromaDB database the embeddings of the files residing in the confi
 extension.
 """
 
-from typing import Any
-
-from _internals.vector_store import initialize_chroma, verify_chroma, index_embedding
-from _internals.hash_store import filter_indexed_files, store_hash
-from _internals.utilities import get_printable_list, log, set_signals, list_files_with_extension
-import configuration
+# local imports
+from . import configuration
+from ._internals.hash_store import filter_indexed_files, store_hash
+from ._internals.utilities import get_printable_list, log, set_signals, list_files_with_extension
+from ._internals.vector_store import initialize_chroma, verify_chroma, index_embedding
 
 
 def vectorize() -> None:

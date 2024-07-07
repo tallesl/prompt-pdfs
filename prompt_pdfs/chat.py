@@ -4,16 +4,19 @@
 Prompts the PDF embeddings stored on ChromaDB using Ollama.
 """
 
+# standard library imports
 from typing import Any, Iterable
 
+# third-party imports
 from langchain.prompts import PromptTemplate
 from langchain_community.llms.ollama import Ollama
 from langchain_core.documents import Document
 from langchain_core.runnables.base import RunnableSerializable
 
-from _internals.vector_store import initialize_chroma, search_relevant_documents
-from _internals.utilities import log, set_signals
-import configuration
+# local imports
+from . import configuration
+from ._internals.utilities import log, set_signals
+from ._internals.vector_store import initialize_chroma, search_relevant_documents
 
 
 def chat() -> None:

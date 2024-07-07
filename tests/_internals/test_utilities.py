@@ -2,15 +2,17 @@
 # pylint: disable=missing-module-docstring
 # type: ignore
 
+# standard library imports
 from datetime import datetime
 from io import StringIO
 from signal import SIGINT, SIGTERM
 from unittest.mock import patch, ANY
 
-from src._internals.utilities import get_printable_list, list_files_with_extension, log, set_signals
+# module under test imports
+from prompt_pdfs._internals.utilities import get_printable_list, list_files_with_extension, log, set_signals
 
 
-@patch('src._internals.utilities.listdir')
+@patch('prompt_pdfs._internals.utilities.listdir')
 def test_list_files_with_extension_none(mock_listdir):
 
     # arrange
@@ -25,7 +27,7 @@ def test_list_files_with_extension_none(mock_listdir):
     assert actual == expected
 
 
-@patch('src._internals.utilities.listdir')
+@patch('prompt_pdfs._internals.utilities.listdir')
 def test_list_files_with_extension_multiple(mock_listdir):
 
     # arrange
@@ -79,7 +81,7 @@ def test_get_printable_list_multiple():
     assert actual == expected
 
 
-@patch('src._internals.utilities.datetime')
+@patch('prompt_pdfs._internals.utilities.datetime')
 @patch('sys.stdout', new_callable=StringIO)
 def test_log(mock_stdout, mock_datetime):
 
@@ -95,7 +97,7 @@ def test_log(mock_stdout, mock_datetime):
     assert actual == expected
 
 
-@patch('src._internals.utilities.signal')
+@patch('prompt_pdfs._internals.utilities.signal')
 def test_set_signals(mock_signal):
     # act
     set_signals()

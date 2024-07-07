@@ -2,11 +2,14 @@
 # pylint: disable=missing-module-docstring
 # type: ignore
 
+# standard library imports
 from os import unlink
 from tempfile import NamedTemporaryFile
 from unittest.mock import patch
 
-from src._internals.hash_store import calculate_file_hash, filter_indexed_files, list_indexed_hashes, store_hash
+# module under test imports
+from prompt_pdfs._internals.hash_store import calculate_file_hash, filter_indexed_files, list_indexed_hashes, \
+    store_hash
 
 
 def test_filter_indexed_files():
@@ -16,8 +19,9 @@ def test_filter_indexed_files():
     indexed_hashes = ['2473772b5e9519befc4c87f80599d614']
     expected = {'file4.pdf': 'b6fec6100be93b50d7ea0f115e15267a'}
 
-    with patch('src._internals.hash_store.list_indexed_hashes', return_value=indexed_hashes), \
-         patch('src._internals.hash_store.calculate_file_hash', side_effect=lambda filepath: source_files[filepath]):
+    with patch('prompt_pdfs._internals.hash_store.list_indexed_hashes', return_value=indexed_hashes), \
+        patch('prompt_pdfs._internals.hash_store.calculate_file_hash', \
+        side_effect=lambda filepath: source_files[filepath]):
 
         # act
         actual = filter_indexed_files('my_file.txt', source_files.keys())

@@ -4,10 +4,12 @@ Manages storing and indexing file hashes.
 
 # pylint: disable=redefined-outer-name
 
+# standard library imports
 from hashlib import md5
 from os import path
 from typing import Iterable
 
+# local imports
 from .utilities import log
 
 

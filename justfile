@@ -8,22 +8,22 @@ venv:
     venv/bin/pip install -r requirements.txt
     venv/bin/pip install -r requirements-dev.txt
 
-lint file:
-    pylint {{file}} --max-line-length 120 || :
-    mypy {{file}} --strict || :
+pylint:
+    pylint ./prompt_pdfs --max-line-length 120 || :
+    pylint ./tests --max-line-length 120 || :
 
-lint-all:
-    pylint {{py-files}} --max-line-length 120 || :
-    mypy {{py-files}} --strict || :
+mypy:
+    mypy -m prompt_pdfs.vectorize --strict || :
+    mypy -m prompt_pdfs.chat --strict || :
 
-test:
+pytest:
     pytest --setup-show
 
 vectorize:
-    python3 src/vectorize.py
+    python3 -m prompt_pdfs.vectorize
 
 chat:
-    python3 src/chat.py
+    python3 -m prompt_pdfs.chat
 
 clean:
     rm -rf chroma
