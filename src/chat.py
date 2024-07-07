@@ -26,7 +26,6 @@ def chat() -> None:
     template: str = configuration.prompt.template  # pylint: disable=no-member
     base_url: str= configuration.ollama.base_url  # pylint: disable=no-member
     model: str= configuration.ollama.model  # pylint: disable=no-member
-    chroma_configuration: Any = configuration.chroma  # pylint: disable=no-member
 
     # set process signals
     set_signals()
@@ -44,7 +43,7 @@ def chat() -> None:
     chain = prompt_template | ollama
 
     # initializing ChromaDB
-    chroma = initialize_chroma(chroma_configuration)
+    chroma = initialize_chroma()
 
     # chat loop
     while True:

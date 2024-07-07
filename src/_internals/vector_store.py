@@ -2,24 +2,26 @@
 Manages storing and indexing file embeddings.
 """
 
-from typing import Any, Iterable
+from typing import Iterable
 
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain_community.embeddings import OllamaEmbeddings
 from langchain_community.vectorstores import Chroma
 from langchain_core.documents import Document
 
+from configuration import chroma_configuration
 from .utilities import log
 
 
-def initialize_chroma(chroma_configuration: Any) -> Chroma:
+def initialize_chroma() -> Chroma:
     """
     Initializes OllamaEmbeddings and Chroma.
     """
 
-    model: str = chroma_configuration.model
-    collection_name: str = chroma_configuration.collection_name
-    persist_directory: str = chroma_configuration.persist_directory
+    # configuration values used in this function
+    model: str = chroma_configuration.model  # pylint: disable=no-member
+    collection_name: str = chroma_configuration.collection_name  # pylint: disable=no-member
+    persist_directory: str = chroma_configuration.persist_directory  # pylint: disable=no-member
 
     # initialize OllamaEmbeddings
     log(f'Initializing OllamaEmbeddings with model: {model}')
@@ -34,22 +36,28 @@ def initialize_chroma(chroma_configuration: Any) -> Chroma:
     return c
 
 
-def verify_chroma(chroma: Chroma, chroma_configuration: Any) -> None:
+def verify_chroma(chroma: Chroma) -> None:
     """
     Verifies ChromaDB content by the searching documents matching the given query.
     """
-    log(f'Verifying ChromaDB content with query: {chroma_configuration.verification_query}')
 
-    found_records = chroma.similarity_search(chroma_configuration.verification_query)
+    # configuration values used in this function
+    verification_query: str = chroma_configuration.verification_query  # pylint: disable=no-member
+    verification_preview_size: int = chroma_configuration.verification_preview_size  # pylint: disable=no-member
 
+    # searching embeddings by the configured query
+    log(f'Verifying ChromaDB content with query: {verification_query}')
+    found_records = search_relevant_documents(chroma, verification_query)
+
+    # if no embeddings were found for this query
     if not found_records:
         log('No embeddings found for this query.')
+        return
 
+    # previewing the found embeddings, if any
     total_records = len(found_records)
-
     for i, record in enumerate(found_records):
-        size = chroma_configuration.verification_preview_size
-        preview = record.page_content[:size].replace('\n', ' ').strip()
+        preview = record.page_content[:verification_preview_size].replace('\n', ' ').strip()
         log(f'Record {i + 1} of {total_records} found: {preview}')
 
 

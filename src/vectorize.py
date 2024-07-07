@@ -19,7 +19,6 @@ def vectorize() -> None:
     """
 
     # configuration values used in this function
-    chroma_configuration: Any = configuration.chroma
     extension: str = configuration.documents.extension  # pylint: disable=no-member
     directory: str = configuration.documents.directory  # pylint: disable=no-member
     indexed_hashes_filepath = configuration.indexed_hashes_filepath
@@ -28,8 +27,8 @@ def vectorize() -> None:
     set_signals()
 
     # initializing and verifying ChromaDB
-    chroma = initialize_chroma(chroma_configuration)
-    verify_chroma(chroma, chroma_configuration)
+    chroma = initialize_chroma()
+    verify_chroma(chroma)
 
     # listing new files to be indexed
     log(f'Listing non-indexed {extension} from: {directory}')

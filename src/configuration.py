@@ -6,12 +6,12 @@ from os import path
 from typing import Any
 
 
-chroma: Any = lambda: None
-chroma.model = 'llama3'
-chroma.collection_name = 'pdf_documents'
-chroma.persist_directory = './chroma'
-chroma.verification_query = 'Scrum'
-chroma.verification_preview_size = 100
+chroma_configuration: Any = lambda: None
+chroma_configuration.model = 'llama3'
+chroma_configuration.collection_name = 'pdf_documents'
+chroma_configuration.persist_directory = './chroma'
+chroma_configuration.verification_query = 'Scrum'
+chroma_configuration.verification_preview_size = 100
 
 documents: Any = lambda: None
 documents.directory = path.expanduser('~/Downloads')
