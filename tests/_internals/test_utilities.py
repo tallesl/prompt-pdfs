@@ -2,7 +2,12 @@
 # pylint: disable=missing-module-docstring
 # type: ignore
 
-from src._internals.utilities import get_printable_list
+from datetime import datetime
+from io import StringIO
+from unittest.mock import patch
+import sys
+
+from src._internals.utilities import get_printable_list, log
 
 
 def test_get_printable_list_empty():
@@ -42,3 +47,27 @@ def test_get_printable_list_multiple():
 
     # assert
     assert actual == expected
+
+
+def test_log():
+
+    # arrange
+    with patch('src._internals.utilities.datetime') as mock_datetime:
+        mock_datetime.now.return_value = datetime(2024, 1, 2, 3, 4, 5)
+
+        with StringIO() as captured_output:
+            original_stdout = sys.stdout
+            sys.stdout = captured_output
+
+            expected_output = '[03:04:05] Test message\n'
+
+            try:
+                # act
+                log('Test message')
+                actual = captured_output.getvalue()
+
+                # assert
+                assert actual == expected_output
+
+            finally:
+                sys.stdout = original_stdout
