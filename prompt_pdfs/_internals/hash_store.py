@@ -10,21 +10,25 @@ from os import path
 from typing import Iterable
 
 # local imports
+from ..configuration import hash_indexing
 from .utilities import log
 
 
-def filter_indexed_files(indexed_hashes_filepath: str, source_filepaths: Iterable[str]) -> dict[str, str]:
+def filter_indexed_files(source_filepaths: Iterable[str]) -> dict[str, str]:
     """
     Lists from the given source files the ones that are not in the given indexed hashes.
     """
 
-    indexed_hashes = list_indexed_hashes(indexed_hashes_filepath)
-
+    # calculating the hash for each given source filepath
     source_files_hashes = {
         f: calculate_file_hash(f)
         for f in source_filepaths
     }
 
+    # listing indexed hashes currently present in file
+    indexed_hashes = list_indexed_hashes()
+
+    # finding the source filepaths hashes that does are not present on the file
     non_indexed = {
         f: h
         for f, h in source_files_hashes.items()
@@ -34,29 +38,39 @@ def filter_indexed_files(indexed_hashes_filepath: str, source_filepaths: Iterabl
     return non_indexed
 
 
-def list_indexed_hashes(indexed_hashes_filepath: str) -> Iterable[str]:
+def list_indexed_hashes() -> Iterable[str]:
     """
     Lists the hashes of the indexed files in the given path.
     """
 
-    log(f'Listing hashes in: {indexed_hashes_filepath}')
-    if not path.exists(indexed_hashes_filepath):
+    # configuration values used in this function
+    filepath: str = hash_indexing.filepath  # pylint: disable=no-member
+
+    log(f'Listing hashes in: {filepath}')
+
+    # if there is no file, return empty list of hashes
+    if not path.exists(filepath):
         return set()
 
-    with open(indexed_hashes_filepath, 'r', encoding='utf-8') as f:
+    # if the file exists, read its contents and returns it (each line it's a hash)
+    with open(filepath, 'r', encoding='utf-8') as f:
         hashes = set(line.strip() for line in f)
         log(f'{len(hashes)} hashes listed.')
         return hashes
 
 
-def store_hash(indexed_hashes_filepath:str, filehash: str) -> None:
+def store_hash(filehash: str) -> None:
     """
     Registers the given file hash as indexed.
     """
 
+    # configuration values used in this function
+    filepath: str = hash_indexing.filepath  # pylint: disable=no-member
+
     log(f'Indexing hash: {filehash}')
 
-    with open(indexed_hashes_filepath, 'a', encoding='utf-8') as f:
+    # appending the given hash to the end of the file
+    with open(filepath, 'a', encoding='utf-8') as f:
         f.write(f'{filehash}\n')
 
     log('Hash indexed.')

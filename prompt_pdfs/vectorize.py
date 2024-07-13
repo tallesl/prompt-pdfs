@@ -20,7 +20,6 @@ def vectorize() -> None:
     # configuration values used in this function
     extension: str = configuration.documents.extension  # pylint: disable=no-member
     directory: str = configuration.documents.directory  # pylint: disable=no-member
-    indexed_hashes_filepath = configuration.indexed_hashes_filepath
 
     # set process signals
     set_signals()
@@ -33,7 +32,7 @@ def vectorize() -> None:
     log(f'Listing non-indexed {extension} from: {directory}')
 
     source_filepaths = list_files_with_extension(directory, extension)
-    non_indexed_files = filter_indexed_files(indexed_hashes_filepath, source_filepaths)
+    non_indexed_files = filter_indexed_files(source_filepaths)
     printable_filepaths = get_printable_list(non_indexed_files.keys())
 
     log(f'New files to be indexed:{printable_filepaths}')
@@ -41,7 +40,7 @@ def vectorize() -> None:
     # indexing both embeddings and hash for each file
     for filepath, filehash in non_indexed_files.items():
         index_embedding(chroma, filepath)
-        store_hash(indexed_hashes_filepath, filehash)
+        store_hash(filehash)
 
 
 if __name__ == '__main__':

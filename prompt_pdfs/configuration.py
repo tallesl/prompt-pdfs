@@ -18,7 +18,9 @@ documents: Any = lambda: None
 documents.directory = path.expanduser('~/Downloads')
 documents.extension = '.pdf'
 
-indexed_hashes_filepath = './indexed_hashes.txt'  # pylint: disable=invalid-name
+hash_indexing: Any = lambda: None
+hash_indexing.filepath = './indexed_hashes.txt'
+hash_indexing.algorithm = 'md5'
 
 ollama: Any = lambda: None
 ollama.base_url = 'http://localhost:11434'
