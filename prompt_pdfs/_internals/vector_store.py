@@ -12,7 +12,7 @@ from langchain_community.vectorstores import Chroma
 from langchain_core.documents import Document
 
 # local imports
-from ..configuration import chroma_configuration
+from ..configuration import chroma_configuration, ollama
 from .utilities import log
 
 
@@ -22,13 +22,14 @@ def initialize_chroma() -> Chroma:
     """
 
     # configuration values used in this function
-    model: str = chroma_configuration.model  # pylint: disable=no-member
+    base_url: str = ollama.base_url  # pylint: disable=no-member
+    model: str = ollama.model  # pylint: disable=no-member
     collection_name: str = chroma_configuration.collection_name  # pylint: disable=no-member
     persist_directory: str = chroma_configuration.persist_directory  # pylint: disable=no-member
 
     # initialize OllamaEmbeddings
     log(f'Initializing OllamaEmbeddings with model: {model}')
-    embedding_function = OllamaEmbeddings(model=model)
+    embedding_function = OllamaEmbeddings(base_url=base_url, model=model)  # TODO bug
     log('OllamaEmbeddings initialized.')
 
     # initialize Chroma

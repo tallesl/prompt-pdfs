@@ -8,7 +8,6 @@ from typing import Any
 
 
 chroma_configuration: Any = lambda: None
-chroma_configuration.model = 'llama3'
 chroma_configuration.collection_name = 'pdf_documents'
 chroma_configuration.persist_directory = './chroma'
 chroma_configuration.verification_query = 'Scrum'
