@@ -51,13 +51,19 @@ def chat() -> None:
     # chat loop
     while True:
         try:
+            print('\n--------------------\n')
+
             log('Ask a question: ', '')
             question = input()
+            print()
 
             if question.lower() in ['quit', 'q', 'exit']:
                 break
 
             relevant_documents = search_relevant_documents(chroma, question)
+
+            log(f'Found {len(relevant_documents)} relevant documents.\n')
+
             answer = invoke_question(chain, relevant_documents, question)
 
             log(f'Answer: {answer}')
